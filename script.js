@@ -21,6 +21,7 @@ function divide(a,b){
 var num1;
 var num2;
 var operator;
+var currentInput = "0"
 
 function operate(op, n1, n2){
     if (op === "+"){
@@ -62,9 +63,11 @@ for(let i = 0; i < 4; i++){
     rows.appendChild(row);
     for (let j = 0; j < 4; j++){
         const btn = document.createElement("button");
-        btn.textContent = (symbols[i][j])
+        btn.val = symbols[i][j]
+        btn.textContent = (btn.val)
         btn.classList.add(String("button" + i + j));
         row.appendChild(btn);
+        btn.addEventListener("mouseup",buttonPressed);
     }
 }
 
@@ -74,7 +77,59 @@ row.classList.add("row4")
 rows.appendChild(row);
 for (let k = 0; k < 3; k++){
     const btn = document.createElement("button");
-    btn.textContent = (symbols[4][k])
+    btn.val = symbols[4][k]
+    btn.textContent = (btn.val)
     btn.classList.add(String("button" + 4 + k));
     row.appendChild(btn);
+    btn.addEventListener("mouseup",buttonPressed);
+}
+
+function buttonPressed(evt){
+    let symbol = evt.currentTarget.val;
+    if(!isNaN(symbol)){
+        if(currentInput !== "0"){
+            currentInput = currentInput + symbol;
+        }
+        else{
+            currentInput = symbol;
+        }
+        paintDisplay(currentInput);
+    }
+    else if(["/","*","-","+"].includes(symbol)){
+        console.log(num1);
+        if(typeof num1 !== "undefined" && typeof num2 !== "undefined"
+            && typeof operator !== "undefined"){
+            console.log("test1");
+            num1 = operate(symbol,num1,num2);
+            operator = symbol;
+            let num2;
+            paintDisplay(num1);
+        }
+        else if(typeof num1 === "undefined" && typeof num2 === "undefined"){
+            operator = symbol;
+            num1 = currentInput;
+            console.log("test2");
+        }
+    }
+    else if(symbol === "="){
+        if(typeof num1 !== "undefined" && typeof num2 === "undefined"
+            && typeof operator !== "undefined"){
+            console.log("test3");
+            num2 = currentInput;
+            num1 = operate(symbol,num1,num2); 
+            paintDisplay(num1); 
+            let num2;
+            let operator;
+        }
+    }
+    else if(symbol === "AC"){
+        paintDisplay("0");
+        let num1;
+        let num2;
+        let operator;
+    }
+}
+
+function paintDisplay(displayStr){
+    display.textContent = displayStr
 }
