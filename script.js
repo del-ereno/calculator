@@ -88,7 +88,10 @@ for (let k = 0; k < 3; k++){
 
 function buttonPressed(evt){
     let symbol = evt.currentTarget.val;
-
+    console.log(String("You just pressed:" + symbol));
+    console.log(String("num1 is currently:", num1));
+    console.log(String("num2 is currently:", num2));
+    console.log(String("operator is currently:", operator));
     //check if symbol is a number
     if(!isNaN(symbol)){
         //if current input is not empty, concatenates numbers
@@ -104,8 +107,6 @@ function buttonPressed(evt){
         paintDisplay(currentInput);
     }
     else if(["/","*","-","+"].includes(symbol)){
-        console.log(num1);
-
         //if symbol is pressed while all variables and operator have been set
         //acts as if = has been pressed, sets result as num1, and new operator
         if( num1 !== "" && num2 !== ""
