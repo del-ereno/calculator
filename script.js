@@ -18,12 +18,13 @@ function divide(a,b){
     return a / b;
 }
 
-var num1;
-var num2;
-var operator;
+var num1 = "";
+var num2 = "";
+var operator = "";
 var currentInput = "0"
 
 function operate(op, n1, n2){
+    console.log(op)
     if (op === "+"){
         return add(n1,n2);
     }
@@ -31,6 +32,7 @@ function operate(op, n1, n2){
         return subtract(n1,n2); 
     }
     else if (op === "*"){
+        console.log(n1 + " * " + n2 + " = " + multiply(n1,n2))
         return multiply(n1,n2); 
     }
     else if (op === "/"){
@@ -86,47 +88,64 @@ for (let k = 0; k < 3; k++){
 
 function buttonPressed(evt){
     let symbol = evt.currentTarget.val;
+
+    //check if symbol is a number
     if(!isNaN(symbol)){
+        //if current input is not empty, concatenates numbers
         if(currentInput !== "0"){
             currentInput = currentInput + symbol;
         }
+        //replaces empty current imput with number
         else{
             currentInput = symbol;
         }
+
+        //updates display
         paintDisplay(currentInput);
     }
     else if(["/","*","-","+"].includes(symbol)){
         console.log(num1);
-        if(typeof num1 !== "undefined" && typeof num2 !== "undefined"
-            && typeof operator !== "undefined"){
-            console.log("test1");
-            num1 = operate(symbol,num1,num2);
+
+        //if symbol is pressed while all variables and operator have been set
+        //acts as if = has been pressed, sets result as num1, and new operator
+        if( num1 !== "" && num2 !== ""
+            &&  operator !== ""){
+            console.log("trying");
+            num1 = operate(operator,num1,num2);
             operator = symbol;
-            let num2;
+            let num2 = "";
             paintDisplay(num1);
         }
-        else if(typeof num1 === "undefined" && typeof num2 === "undefined"){
+
+        //if symbol is pressed while no num defined
+        //sets operator, sets num1 as current input, clears current input
+        else if(num1 === ""){
             operator = symbol;
             num1 = currentInput;
-            console.log("test2");
+            currentInput = "0";
         }
     }
+
     else if(symbol === "="){
-        if(typeof num1 !== "undefined" && typeof num2 === "undefined"
-            && typeof operator !== "undefined"){
-            console.log("test3");
+        if( num1 !== "" &&  num2 === ""
+            &&  operator !== "" && currentInput !== "0"){
+            console.log(operator);
             num2 = currentInput;
-            num1 = operate(symbol,num1,num2); 
+            num1 = operate(operator,Number(num1),Number(num2)); 
+            console.log(num1);
             paintDisplay(num1); 
-            let num2;
-            let operator;
+            num2 = "";
+            operator = "";
         }
     }
+
+    //
     else if(symbol === "AC"){
         paintDisplay("0");
-        let num1;
-        let num2;
-        let operator;
+        currentInput = "0";
+        let num1 = "";
+        let num2 = "";
+        let operator = "";
     }
 }
 
