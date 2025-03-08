@@ -32,7 +32,6 @@ function operate(op, n1, n2){
         return subtract(n1,n2); 
     }
     else if (op === "*"){
-        console.log(n1 + " * " + n2 + " = " + multiply(n1,n2))
         return multiply(n1,n2); 
     }
     else if (op === "/"){
@@ -88,10 +87,10 @@ for (let k = 0; k < 3; k++){
 
 function buttonPressed(evt){
     let symbol = evt.currentTarget.val;
-    console.log(String("You just pressed:" + symbol));
-    console.log(String("num1 is currently:", num1));
-    console.log(String("num2 is currently:", num2));
-    console.log(String("operator is currently:", operator));
+    console.log("You just pressed:" + symbol);
+    console.log(String("num1 is currently:" + num1));
+    console.log(String("num2 is currently:" + num2));
+    console.log(String("operator is currently:" + operator));
     //check if symbol is a number
     if(!isNaN(symbol)){
         //if current input is not empty, concatenates numbers
@@ -109,18 +108,18 @@ function buttonPressed(evt){
     else if(["/","*","-","+"].includes(symbol)){
         //if symbol is pressed while all variables and operator have been set
         //acts as if = has been pressed, sets result as num1, and new operator
-        if( num1 !== "" && num2 !== ""
+        if( num1 !== "" 
             &&  operator !== ""){
-            console.log("trying");
-            num1 = operate(operator,num1,num2);
             operator = symbol;
-            let num2 = "";
+            num2 = currentInput;
+            num1 = operate(operator,num1,num2);
+            num2 = "";
             paintDisplay(num1);
         }
 
         //if symbol is pressed while no num defined
         //sets operator, sets num1 as current input, clears current input
-        else if(num1 === ""){
+        else if(operator === ""){
             operator = symbol;
             num1 = currentInput;
             currentInput = "0";
@@ -144,10 +143,11 @@ function buttonPressed(evt){
     else if(symbol === "AC"){
         paintDisplay("0");
         currentInput = "0";
-        let num1 = "";
-        let num2 = "";
-        let operator = "";
+        num1 = "";
+        num2 = "";
+        operator = "";
     }
+    console.log("");
 }
 
 function paintDisplay(displayStr){
