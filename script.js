@@ -1,119 +1,116 @@
-//add function
+// add function
 function add(a,b){
     return a + b;
 }
 
-//subtract function
+// subtract function
 function subtract(a,b){
     return a - b;
 }
 
-//multiply function
+// multiply function
 function multiply(a,b){
     return a * b;
 }
 
-//divide function
+// divide function
 function divide(a,b){
     return a / b;
 }
 
+
+// initialise variables
 var num1 = "";
 var num2 = "";
 var operator = "";
 var currentInput = "0"
 
+// operate function to handle operation method calls
 function operate(op, n1, n2){
     console.log(op)
     if (op === "+"){
         return add(n1,n2);
-    }
-    else if (op === "-"){
+    } else if (op === "-"){
         return subtract(n1,n2); 
-    }
-    else if (op === "*"){
+    } else if (op === "*"){
         return multiply(n1,n2); 
-    }
-    else if (op === "/"){
+    } else if (op === "/"){
         return divide(n1,n2); 
     }
 }
 
-//
-
-container = document.querySelector("#calculator");
-display = document.createElement("div");
+// setup calculator visuals
+const container = document.querySelector("#calculator");
+const display = document.createElement("div");
 display.textContent = "0";
 display.classList.add("display");
 calculator.appendChild(display);
 
 
-//creating row div, symbol array
+// creating row div, symbol array
 rows = document.createElement("div");
 rows.classList.add("rows");
 calculator.appendChild(rows);
 
-const symbols = [["AC", "+/-","%","/"],["7","8","9","*"],
-    ["4","5","6","-"],["1","2","3","+"],["0",".","="]]
+// array for button labels / symbols
+const symbols = [
+    ["AC", "+/-","%","/"],
+    ["7","8","9","*"],
+    ["4","5","6","-"],
+    ["1","2","3","+"],
+    ["0",".","="]]
 
 
 //creating first four identical rows 
 for(let i = 0; i < 4; i++){
     const row = document.createElement("div");
-    row.classList.add(String("row" + i))
+    row.classList.add(`row${i}`)
     rows.appendChild(row);
+
+    // button row loop
     for (let j = 0; j < 4; j++){
         const btn = document.createElement("button");
-        btn.val = symbols[i][j]
-        btn.textContent = (btn.val)
-        btn.classList.add(String("button" + i + j));
+        btn.value = symbols[i][j]
+        btn.textContent = (btn.value)
+        btn.classList.add(`button${i}${j}`);
         row.appendChild(btn);
         btn.addEventListener("mouseup",buttonPressed);
     }
 }
 
 //creating last button row separately due to sizing differences
-const row = document.createElement("div");
-row.classList.add("row4")
-rows.appendChild(row);
-for (let k = 0; k < 3; k++){
+const lastRow = document.createElement("div");
+lastRow.classList.add("row4")
+rows.appendChild(lastRow);
+
+symbols[4].forEach((symbol, k) => {
     const btn = document.createElement("button");
-    btn.val = symbols[4][k]
-    btn.textContent = (btn.val)
-    btn.classList.add(String("button" + 4 + k));
-    row.appendChild(btn);
+    btn.value = symbol;
+    btn.textContent = symbol;
+    btn.classList.add(`button4${k}`);
+    lastRow.appendChild(btn);
     btn.addEventListener("mouseup",buttonPressed);
-}
+});
 
 function buttonPressed(evt){
-    let symbol = evt.currentTarget.val;
-    console.log("You just pressed:" + symbol);
-    console.log(String("num1 is currently:" + num1));
-    console.log(String("num2 is currently:" + num2));
-    console.log(String("operator is currently:" + operator));
-    console.log(String("CurrString is currently:" + currentInput));
-    //check if symbol is a number
-    if(!isNaN(symbol)){
-        //if current input is not empty, concatenates numbers
-        if(currentInput !== "0"){
-            currentInput = currentInput + symbol;
-        }
-        //replaces empty current imput with number
-        else{
-            currentInput = symbol;
-        }
+    let symbol = evt.currentTarget.value;
+    console.log(`You just pressed: ${symbol}`);
+    console.log(`num1: ${num1}, num2: ${num2}, operator: ${operator}, currentInput: ${currentInput}`);
 
-        //updates display
+    // handling number input
+    if(!isNaN(symbol)){
+        currentInput = (currentInput !== "0") ? currentInput + symbol : symbol;
         paintDisplay(currentInput);
     }
+
+    //handling operator input
     else if(["/","*","-","+"].includes(symbol)){
+
         //if symbol is pressed while all variables and operator have been set
         //acts as if = has been pressed, sets result as num1, and new operator
-        if( num1 !== "" 
-            &&  operator !== ""){
-            operator = symbol;
+        if( num1 !== "" &&  operator !== ""){
             num2 = currentInput;
-            num1 = operate(operator,num1,num2);
+            num1 = operate(operator,Number(num1),Number(num2));
             currentInput = "0"
             num2 = "";
             paintDisplay(num1);
@@ -121,27 +118,25 @@ function buttonPressed(evt){
 
         //if symbol is pressed while no num defined
         //sets operator, sets num1 as current input, clears current input
-        else if(operator === ""){
+        else {
             operator = symbol;
             num1 = currentInput;
             currentInput = "0";
         }
     }
 
+    // handling "=" input
     else if(symbol === "="){
-        if( num1 !== "" &&  num2 === ""
-            &&  operator !== "" && currentInput !== "0"){
-            console.log(operator);
+        if( num1 !== "" &&  num2 === "" &&  operator !== "" && currentInput !== "0"){
             num2 = currentInput;
             num1 = operate(operator,Number(num1),Number(num2)); 
-            console.log(num1);
             paintDisplay(num1); 
             num2 = "";
             operator = "";
         }
     }
 
-    //
+    // handling AC input
     else if(symbol === "AC"){
         paintDisplay("0");
         currentInput = "0";
@@ -152,6 +147,7 @@ function buttonPressed(evt){
     console.log("");
 }
 
+// function to update calc display
 function paintDisplay(displayStr){
-    display.textContent = displayStr
+    display.textContent = displayStr;
 }
