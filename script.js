@@ -91,6 +91,7 @@ function buttonPressed(evt){
     console.log(String("num1 is currently:" + num1));
     console.log(String("num2 is currently:" + num2));
     console.log(String("operator is currently:" + operator));
+    console.log(String("CurrString is currently:" + currentInput));
     //check if symbol is a number
     if(!isNaN(symbol)){
         //if current input is not empty, concatenates numbers
@@ -113,6 +114,7 @@ function buttonPressed(evt){
             operator = symbol;
             num2 = currentInput;
             num1 = operate(operator,num1,num2);
+            currentInput = "0"
             num2 = "";
             paintDisplay(num1);
         }
