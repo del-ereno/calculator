@@ -35,8 +35,22 @@ function operate(op, n1, n2){
     } else if (op === "*"){
         return multiply(n1,n2); 
     } else if (op === "/"){
-        return divide(n1,n2); 
+        console.log(n2);
+        if (n2 === 0){
+            alert("please... i beg... you cannot divide by zero!");
+            clearCalc();
+        } else{
+            return divide(n1,n2); 
+        }
     }
+}
+
+function clearCalc(){
+    paintDisplay("0");
+    currentInput = "0";
+    num1 = "";
+    num2 = "";
+    operator = "";
 }
 
 // setup calculator visuals
@@ -127,8 +141,9 @@ function buttonPressed(evt){
 
     // handling "=" input
     else if(symbol === "="){
-        if( num1 !== "" &&  num2 === "" &&  operator !== "" && currentInput !== "0"){
+        if( num1 !== "" &&  num2 === "" &&  operator !== ""){
             num2 = currentInput;
+            console.log(num2);
             num1 = operate(operator,Number(num1),Number(num2)); 
             paintDisplay(num1); 
             num2 = "";
@@ -136,13 +151,15 @@ function buttonPressed(evt){
         }
     }
 
+    // handling % input
+    else if(symbol === "%"){
+        currentInput = currentInput * 0.01;
+        paintDisplay(currentInput);
+    }
+
     // handling AC input
     else if(symbol === "AC"){
-        paintDisplay("0");
-        currentInput = "0";
-        num1 = "";
-        num2 = "";
-        operator = "";
+        clearCalc();
     }
     console.log("");
 }
