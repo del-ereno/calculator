@@ -25,17 +25,9 @@ var currentInput = "0"
 
 // operate function to handle operation method calls
 function operate(op, n1, n2){
-    console.log(op)
-    if (op === "+"){
-        return add(n1,n2);
-    } else if (op === "-"){
-        return subtract(n1,n2); 
-    } else if (op === "*"){
-        return multiply(n1,n2); 
-    } else if (op === "/"){
-        return divide(n1,n2); 
-        }
-    }
+    const operations = { "+": add, "-": subtract, "*": multiply, "/":divide};
+    return operations[op] ? operations [op] (n1,n2) : "0";
+}
 
 
 function clearCalc(){
