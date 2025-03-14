@@ -153,8 +153,26 @@ function buttonPressed(evt){
 
     // handling % input
     else if(symbol === "%"){
-        currentInput = currentInput * 0.01;
-        paintDisplay(currentInput);
+        if (display.textContent === String(num1)) {
+            num1 = num1 * 0.01;
+            paintDisplay(num1);
+        }
+        else if (display.textContent === String(currentInput)){
+            currentInput = currentInput * 0.01;
+            paintDisplay(currentInput);
+        }
+    }
+
+    //handling +/- input
+    else if(symbol === "+/-"){
+        if (display.textContent === String(num1)) {
+            num1 = num1 * -1;
+            paintDisplay(num1);
+        }
+        else if (display.textContent === String(currentInput)){
+            currentInput = currentInput * -1;
+            paintDisplay(currentInput);
+        }
     }
 
     // handling AC input
