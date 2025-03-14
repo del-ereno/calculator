@@ -110,7 +110,7 @@ function buttonPressed(evt){
     }
 
     else if (symbol === "."){
-        if(!currentInput.includes(".")){
+        if(!String(currentInput).includes(".")){
             currentInput += symbol;
             paintDisplay(currentInput);
         }
