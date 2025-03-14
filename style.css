@@ -18,12 +18,15 @@ body{
 .display{
     width:390px;
     padding-right: 10px;
-    height:100px;
+    height:110px;
     border-radius: 10px;
     font-family:sans-serif;
     color: white;
     text-align: right;
     font-size: 90px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
 }
 .rows{
     display: flex;

@@ -1,3 +1,15 @@
+// initialise variables
+var num1 = "";
+var num2 = "";
+var operator = "";
+var currentInput = "0"
+const roundPrec = 4;
+
+// round function
+function roundNum(num){
+    return parseFloat(num.toFixed(roundPrec));
+}
+
 // add function
 function add(a,b){ return a + b; }
 
@@ -17,11 +29,6 @@ function divide(a,b){
     return a / b; 
 }
 
-// initialise variables
-var num1 = "";
-var num2 = "";
-var operator = "";
-var currentInput = "0"
 
 // operate function to handle operation method calls
 function operate(op, n1, n2){
@@ -102,6 +109,13 @@ function buttonPressed(evt){
         paintDisplay(currentInput);
     }
 
+    else if (symbol === "."){
+        if(!currentInput.includes(".")){
+            currentInput += symbol;
+            paintDisplay(currentInput);
+        }
+    }
+
     //handling operator input
     else if(["/","*","-","+"].includes(symbol)){
 
@@ -109,7 +123,7 @@ function buttonPressed(evt){
         //acts as if = has been pressed, sets result as num1, and new operator
         if( num1 !== "" &&  operator !== "" && currentInput !== "0"){
             num2 = currentInput;
-            num1 = operate(operator,Number(num1),Number(num2));
+            num1 = roundNum(operate(operator,Number(num1),Number(num2)));
             currentInput = "0"
             num2 = "";
             paintDisplay(num1);
@@ -136,7 +150,7 @@ function buttonPressed(evt){
         if( num1 !== "" &&  num2 === "" &&  operator !== ""){
             num2 = currentInput;
             console.log(num2);
-            num1 = operate(operator,Number(num1),Number(num2)); 
+            num1 = roundNum(operate(operator,Number(num1),Number(num2))); 
             paintDisplay(num1); 
             currentInput = num1;
             num2 = "";
