@@ -107,12 +107,18 @@ function buttonPressed(evt){
 
         //if symbol is pressed while all variables and operator have been set
         //acts as if = has been pressed, sets result as num1, and new operator
-        if( num1 !== "" &&  operator !== ""){
+        if( num1 !== "" &&  operator !== "" && currentInput !== "0"){
             num2 = currentInput;
             num1 = operate(operator,Number(num1),Number(num2));
             currentInput = "0"
             num2 = "";
             paintDisplay(num1);
+        }
+
+        //if two operators are pressed in succession with no other input, operator is replaced
+        else if(num1 !== "" &&  operator !== "" && currentInput === "0"){
+            operator = symbol;
+            paintDisplay(symbol);
         }
 
         //if symbol is pressed while no num defined
@@ -121,6 +127,7 @@ function buttonPressed(evt){
             operator = symbol;
             num1 = currentInput;
             currentInput = "0";
+            paintDisplay(symbol);
         }
     }
 
@@ -131,6 +138,7 @@ function buttonPressed(evt){
             console.log(num2);
             num1 = operate(operator,Number(num1),Number(num2)); 
             paintDisplay(num1); 
+            currentInput = num1;
             num2 = "";
             operator = "";
         }
