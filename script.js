@@ -1,23 +1,21 @@
 // add function
-function add(a,b){
-    return a + b;
-}
+function add(a,b){ return a + b; }
 
 // subtract function
-function subtract(a,b){
-    return a - b;
-}
+function subtract(a,b){ return a - b; }
 
 // multiply function
-function multiply(a,b){
-    return a * b;
-}
+function multiply(a,b){ return a * b; }
 
 // divide function
 function divide(a,b){
-    return a / b;
+    if (b === 0){
+        alert("please... i beg... you cannot divide by zero!");
+        clearCalc();
+        return "0";
+    }
+    return a / b; 
 }
-
 
 // initialise variables
 var num1 = "";
@@ -27,23 +25,10 @@ var currentInput = "0"
 
 // operate function to handle operation method calls
 function operate(op, n1, n2){
-    console.log(op)
-    if (op === "+"){
-        return add(n1,n2);
-    } else if (op === "-"){
-        return subtract(n1,n2); 
-    } else if (op === "*"){
-        return multiply(n1,n2); 
-    } else if (op === "/"){
-        console.log(n2);
-        if (n2 === 0){
-            alert("please... i beg... you cannot divide by zero!");
-            clearCalc();
-        } else{
-            return divide(n1,n2); 
-        }
-    }
+    const operations = { "+": add, "-": subtract, "*": multiply, "/":divide};
+    return operations[op] ? operations [op] (n1,n2) : "0";
 }
+
 
 function clearCalc(){
     paintDisplay("0");
